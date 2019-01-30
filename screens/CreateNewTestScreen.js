@@ -15,10 +15,13 @@ class CreateNewTestScreen extends React.Component {
 			testDuration:"",
 			testTrials:"",
 			testDescription:"",
-            trialList: []
+            trialList: [],
+            maxTrials:10
 		}
 	}
 
+    
+    //calls parent Screenprops method to add a test to master list
 	addTest = () => {
         if (this.props.screenProps.addTestToList(this.state))
         {
@@ -32,7 +35,7 @@ class CreateNewTestScreen extends React.Component {
 	{
 
 		return (
-			<KeyboardAvoidingView behavior='padding' style={styles.container}>
+			<View style={styles.container}>
 				<View style = {{marginBottom: 40, alignItems:'center'}}>
 					<Text style = {styles.title_text}>Add Test</Text>
 				</View>
@@ -89,7 +92,7 @@ class CreateNewTestScreen extends React.Component {
 
 					</TouchableOpacity>
 				</View>
-			</KeyboardAvoidingView>
+			</View>
 
 		);
 	}
@@ -145,7 +148,7 @@ const styles = StyleSheet.create({
 
   description_input: {
     padding: 10,
-    height: 200,
+    height: 120,
     width: '100%',
     marginTop: 20,
     borderRadius: 15,

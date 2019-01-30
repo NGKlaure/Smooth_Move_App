@@ -4,6 +4,7 @@ import TestListRow from './TestListRow'
 import { Constants } from 'expo'
 
 class AdminTestListScreen extends React.Component {
+    //adds title and styling to header
 	static navigationOptions = () => {
 		return {
 			headerTitle: <View style={styles.title_view}><Text style={styles.title_text}>Test List</Text></View>,
@@ -18,7 +19,12 @@ class AdminTestListScreen extends React.Component {
 		const { screenProps } = this.props;
 		return (
 			<ScrollView>
-				{screenProps.testList.map((testItem, index) => <TestListRow removeTest={this.props.screenProps.removeTest} key={testItem.testID} testItem={testItem}  />)}
+				{screenProps.testList.map((testItem, index) => 
+                <TestListRow 
+                removeTest={this.props.screenProps.removeTest} 
+                key={testItem.testID} 
+                testItem={testItem}
+                userNavigation={false}/>)}
 			</ScrollView>
 	);
 	}

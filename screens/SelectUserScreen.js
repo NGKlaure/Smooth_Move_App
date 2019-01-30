@@ -11,10 +11,11 @@ const DEVICE_WIDTH = Dimensions.get('window').width
 class SelectUserScreen extends React.Component 
 {
 	
+    //navigates to admin side of application
 	loginAdmin = () => {
-		this.props.navigation.navigate('test_list_tab', )
+		this.props.navigation.navigate('AdminTabs', )
 	}	
-
+    //navigates to user side of application
 	loginUser = () => {
 		this.props.navigation.navigate('UserTabs')
 	}	
@@ -84,6 +85,7 @@ const styles = StyleSheet.create({
     color: 'white'
   },
 })
+
 /*
   studentsWorkingImage: {
     width: 100,

@@ -1,15 +1,17 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { createStackNavigator, createBottomTabNavigator, createAppContainer } from "react-navigation";
-
+import moment from 'moment'
 import SelectUserScreen from './screens/SelectUserScreen'
 import AdminTestListScreen from './screens/AdminTestListScreen'
-import UserTestListScreen from './screens/UserTestListScreen'
 
 import CreateNewTestScreen from './screens/CreateNewTestScreen'
-import TestInfoScreen from './screens/TestInfoScreen'
+import AdminTestInfoScreen from './screens/AdminTestInfoScreen'
+import UserTestInfoScreen from './screens/UserTestInfoScreen'
 import TrialInfoScreen from './screens/TrialInfoScreen'
-import StatisticScreen from './screens/StatisticScreen'
+import UserTestListScreen from './screens/UserTestListScreen'
+import RunTestScreen from './screens/RunTestScreen'
+
 
 const styles = StyleSheet.create({
 	tab_text: 
@@ -20,65 +22,10 @@ const styles = StyleSheet.create({
 })
 
 
-
-
-
-//user tab
-const userTestListNavigator = createStackNavigator(
-{
-	'UserTabs': UserTestListScreen,
-	'test_info_screen': TestInfoScreen,
-	'edit_test_screen': CreateNewTestScreen, //for editing existing tests, tabs are hidden when navigating from this page
-},
-{
-	initialRouteName: 'UserTabs'
-});
-
-const userTabNavigator = createBottomTabNavigator(
-{
-	'Test List': 
-	{
-		screen: userTestListNavigator, //Tests that hold all created tests
-		navigationOptions:
-		{
-			tabBarLabel: (<View style={{alignItems:'center', justifyContent:'center', paddingBottom: 12}}>
-							<Text style={styles.tab_text}>Test List</Text></View>),
-
-		}
-	},
-	'View Statistics': 
-	{
-		screen: StatisticScreen,  //for initially creating tests, tabs are visible
-		navigationOptions:
-		{
-			tabBarLabel: (<View style={{alignItems:'center', justifyContent:'center', paddingBottom: 12}}>
-							<Text style={styles.tab_text}>View Statistics</Text></View>)
-		},
-
-
-	}
-	
-},
-{
-	initialRouteName: 'Test List',
-	tabBarOptions: 
-	{
-		activeBackgroundColor:'#b9b9a4',
-		//tabStyle:
-		//{
-		//	backgroundColor: 'black'
-		//}
-		
-	}
-
-});
-//end user tab
-
-
 const testListNavigator = createStackNavigator(
 {
 	'test_list_tab': AdminTestListScreen,
-	'test_info_screen': TestInfoScreen,
+	'admin_test_info_screen': AdminTestInfoScreen,
     'trial_info_screen':TrialInfoScreen,
 	'edit_test_screen': CreateNewTestScreen, //for editing existing tests, tabs are hidden when navigating from this page
 },
@@ -87,10 +34,13 @@ const testListNavigator = createStackNavigator(
 });
 
 testListNavigator.navigationOptions = ({navigation}) => {
-	//let tabbarVisible = true;
-	//if (navigation.state.index > 0)
-	//	tabBarVisible = false
-	//return{tabBarVisible}
+	let tabBarVisible = true;
+
+	if (navigation.state.index > 0) 
+	{
+		tabBarVisible = false;
+	}
+	return {tabBarVisible}
 }
 
 const adminTabNavigator = createBottomTabNavigator(
@@ -123,11 +73,49 @@ const adminTabNavigator = createBottomTabNavigator(
 	tabBarOptions: 
 	{
 		activeBackgroundColor:'#b9b9a4',
-		//tabStyle:
-		//{
-		//	backgroundColor: 'black'
-		//}
+
 		
+	}
+
+});
+
+
+const userStackNavigator = createStackNavigator({
+    'user_test_list':UserTestListScreen,
+    'user_test_info_screen':UserTestInfoScreen,
+    'run_test_screen':RunTestScreen
+},
+{
+    initialRouteName: 'user_test_list'
+});
+userStackNavigator.navigationOptions = ({navigation}) => {
+	let tabBarVisible = true;
+
+	if (navigation.state.index > 0) 
+	{
+		tabBarVisible = false;
+	}
+	return {tabBarVisible}
+}
+const userTabNavigator = createBottomTabNavigator( //one tab currently
+{
+	'user_test_list_tab': 
+	{
+		screen: userStackNavigator, //Tests that hold all created tests
+		navigationOptions:
+		{
+			tabBarLabel: (<View style={{alignItems:'center', justifyContent:'center', paddingBottom: 12}}>
+							<Text style={styles.tab_text}>Test List</Text></View>),
+
+		}
+	},
+	
+},
+{
+	initialRouteName: 'user_test_list_tab',
+	tabBarOptions: 
+	{
+		activeBackgroundColor:'#b9b9a4',
 	}
 
 });
@@ -164,20 +152,29 @@ export default class App extends React.Component
                 trialList: [
                 {
                     trialID:1,
-                    trialDate:"12-11-2018"
+                    trialDate: moment("12-11-2018 12:12",'DD/MM/YYYY HH:mm').format('LLL'),
+                    //trialDate:moment("12-11-2018", 'mm-dd-yyyy').format('LLL'),
+                    time_elapsed: '00:52'
                 },
                 {
                     trialID:2,
-                    trialDate:"11-25-2018"
+                    trialDate:"11-25-2018",
+                    trialDate: moment("25-11-2018 06:07",'DD/MM/YYYY HH:mm').format('LLL'),
+                    time_elapsed: '00:30'
                 },
                 {
                     trialID:3,
-                    trialDate:"11-17-2018"
+                    trialDate:"11-17-2018",
+                    trialDate: moment("17-11-2018 10:15",'DD/MM/YYYY HH:mm').format('LLL'),
+                    time_elapsed: '01:12'
                 },
                 {
                     trialID:4,
-                    trialDate:"11-06-2018"
+                    trialDate:"11-06-2018",
+                    trialDate: moment("06-11-2018 11:56",'DD/MM/YYYY HH:mm').format('LLL'),
+                    time_elapsed: '01:32'
                 }],
+                maxTrials:6
 			},
 			{
 				testID:2,
@@ -185,7 +182,8 @@ export default class App extends React.Component
 				testDuration:"default",
 				testTrials:"default",
 				testDescription:"The Gulf of Sidra Offensive was an offensive of the Second Libyan Civil War. It was launched by the Benghazi Defense Brigades on 11 June 2018[1], and was fought concurrently with the Battle of Derna (2018). The Benghazi Defense Brigades captured Ras Lanuf and Sidra, before the Libyan National Army started a counteroffensive on 17 June[6]. On 21 June, The LNA captured Ras Lanuf and Al Sidra[7]. Hours later, The Benghazi Defense Brigades claimed to capture these cities once again[8][9], but the LNA denied these claims, releasing pictures showing their soldiers within Sidra and Ras Lanuf.[10]",
-                trialList: []
+                trialList: [],
+                maxTrials:10
 			},
 			{
 				testID:3,
@@ -193,7 +191,8 @@ export default class App extends React.Component
 				testDuration:"default",
 				testTrials:"default",
 				testDescription:"default",
-                trialList: []
+                trialList: [],
+                maxTrials:10
 			},
 			]
 		}
@@ -245,6 +244,34 @@ export default class App extends React.Component
         return maxID         
     }
 
+    addTrial = (testID, time_string) => 
+    {
+
+        let temp_test_list = this.state.testList
+        let currentTest = temp_test_list.filter( (T) => T.testID == testID )
+        let test_index = temp_test_list.findIndex(obj => obj.testID == testID)
+
+        
+        let trialIndexes = temp_test_list[test_index].trialList.map(tst => tst.trialID)
+        let maxID = Math.max(...trialIndexes)
+        
+        let newTrial = {
+            trialID:1,
+            time_elapsed: time_string,
+            trialDate: moment().format('LLL')
+        }
+        
+        if (trialIndexes.length !== 0)
+        {
+            newTrial['trialID'] = maxID + 1
+        }
+
+
+        console.log(newTrial.trialDate)
+        temp_test_list[test_index].trialList = [...temp_test_list[test_index].trialList, newTrial]
+        this.setState({testList: temp_test_list})
+        
+    }
     
 	render()
 	{
@@ -255,7 +282,8 @@ export default class App extends React.Component
 						addTestToList: this.addTestToList,
                         removeTest: this.removeTest,
                         getMaxTestID: this.getMaxTestID,
-                        removeTrial: this.removeTrial
+                        removeTrial: this.removeTrial,
+                        addTrial: this.addTrial
 					}} />
 	}
 	

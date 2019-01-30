@@ -8,12 +8,12 @@ class TrialListRow extends React.Component {
     
     
     render() {
-    const {currentTrial} = this.props;
-    console.log(this.props)
-    return this.renderRow(currentTrial)
+        const {currentTrial} = this.props;
+
+        return this.renderRow(currentTrial)
 
     }
-    
+    //creates a row displaying trial date and index, with delete swipeout functionality
     renderRow = (currentTrial) =>
     {
         
@@ -29,7 +29,7 @@ class TrialListRow extends React.Component {
         autoClose={true}
         backgroundColor= 'transparent'>
             <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('trial_info_screen')}>
+            onPress={() => this.props.navigation.navigate('trial_info_screen',{currentTrial: currentTrial})}>
                 <View style={row_styles.row}>
                     <View style={row_styles.trial_data_view}>
                         <Text style={row_styles.trialID}>{currentTrial.trialID}</Text>

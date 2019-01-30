@@ -9,31 +9,43 @@ class TestListRow extends React.Component {
 
   }
   
-  
+    //creates test row with delete swipeout functionality
     renderRow = (testItem) =>
     {
+        
         let swipeBtns = [
         {
-            text: 'delete',
+            text: 'Delete',
             backgroundColor: 'red',
             underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
             onPress: () => { this.props.removeTest(testItem.testID) }//this.deleteNote(rowData) }
         }];
 
+        navigateToInfo = () => {
+            if (this.props.userNavigation)
+            {
+                this.props.navigation.navigate('user_test_info_screen',{ currentTest: testItem})
+            }
+            else
+                this.props.navigation.navigate('admin_test_info_screen',{ currentTest: testItem})
+        }
+        
+        
         return (
             <Swipeout right={swipeBtns}
             autoClose={true}
             backgroundColor= 'transparent'>
                     <TouchableOpacity
-                      onPress={() => this.props.navigation.navigate('test_info_screen',
-                        {
-                            currentTest: testItem
-                            //testID: testItem.testID,
-                            //testName: testItem.testName,
-                        }
-                      )}>
+                      onPress={() => {
+                            if (this.props.userNavigation)
+                            {
+                                this.props.navigation.navigate('user_test_info_screen',{ currentTest: testItem})
+                            }
+                            else
+                                this.props.navigation.navigate('admin_test_info_screen',{ currentTest: testItem})
+                        }}>
                       
-                      <View style={styles.row}>
+                      <View style={this.props.userNavigation ? styles.userRow : styles.adminRow}>
                         <View style={styles.nameAndNumber}>
                           <Text style={styles.testID}>{testItem.testID}</Text>
                           <Text style={styles.testName}>{testItem.testName}</Text>
@@ -53,10 +65,15 @@ class TestListRow extends React.Component {
 
 const styles = StyleSheet.create({
 
-  row: {
+  adminRow: {
     padding: 15,
     justifyContent: 'space-evenly',
 	backgroundColor: '#5b9095'
+  },
+  userRow: {
+    padding: 15,
+    justifyContent: 'space-evenly',
+	backgroundColor: '#bd4440'
   },
 
   nameAndNumber: {
