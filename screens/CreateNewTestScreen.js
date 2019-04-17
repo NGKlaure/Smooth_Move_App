@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Button, StyleSheet, TextInput, Picker, TouchableOpacity, Dimensions, KeyboardAvoidingView} from "react-native";
+import { View,  ScrollView, Text, Button, StyleSheet, TextInput, Picker, TouchableOpacity, Dimensions, KeyboardAvoidingView} from "react-native";
 
 const PADDING = 20
 const MARGIN = 60
@@ -14,7 +14,8 @@ class CreateNewTestScreen extends React.Component {
 			testName:"",
 			testDuration:"",
 			testTrials:"",
-			testDescription:"",
+			tesMaxSpeed:0.47,
+			testDescription:"",		
             trialList: [],
             maxTrials:10
 		}
@@ -35,7 +36,8 @@ class CreateNewTestScreen extends React.Component {
 	{
 
 		return (
-			<View style={styles.container}>
+		< ScrollView>
+			<View  style={styles.container}>
 				<View style = {{marginBottom: 40, alignItems:'center'}}>
 					<Text style = {styles.title_text}>Add Test</Text>
 				</View>
@@ -55,7 +57,7 @@ class CreateNewTestScreen extends React.Component {
 						  style={styles.input}
 						  onChangeText={(testDuration) => this.setState({ testDuration })}
 						  value={this.state.testDuration}
-						  placeholder='Duration'
+						  placeholder='Duration e.g: 00:10'
 						  //onSubmitEditing={() => this.trialsRef.focus()}
 						  returnKeyType='done'
 						/>
@@ -65,7 +67,17 @@ class CreateNewTestScreen extends React.Component {
 						  style={styles.input}
 						  onChangeText={(testTrials) => this.setState({ testTrials })}
 						  value={this.state.testTrials}
-						  placeholder='Trials Required'
+						  placeholder='Trials Required e.g: 5'
+						  //onSubmitEditing={() => this.descriptionRef.focus()}
+						  returnKeyType='done'
+						/>
+						
+						<TextInput
+						  ref={tesMaxSpeedRef => this.tesMaxSpeedRef = tesMaxSpeedRef}
+						  style={styles.input}
+						  onChangeText={(tesMaxSpeed) => this.setState({ tesMaxSpeed })}
+						  value={this.state.tesMaxSpeed}
+						  placeholder='Max speed Required e.g: 0.47'
 						  //onSubmitEditing={() => this.descriptionRef.focus()}
 						  returnKeyType='done'
 						/>
@@ -93,6 +105,7 @@ class CreateNewTestScreen extends React.Component {
 					</TouchableOpacity>
 				</View>
 			</View>
+		</ScrollView>
 
 		);
 	}
@@ -148,7 +161,7 @@ const styles = StyleSheet.create({
 
   description_input: {
     padding: 10,
-    height: 120,
+    height: 200,
     width: '100%',
     marginTop: 20,
     borderRadius: 15,
