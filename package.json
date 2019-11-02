@@ -17,7 +17,7 @@
     "express": "^4.16.4",
     "moment": "^2.24.0",
     "mongodb": "^3.2.1",
-    "mongoose": "^5.4.19",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
