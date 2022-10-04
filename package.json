@@ -13,7 +13,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
-    "expo": "^31.0.2",
+    "expo": "^46.0.14",
     "express": "^4.16.4",
     "moment": "^2.24.0",
     "mongodb": "^3.2.1",
